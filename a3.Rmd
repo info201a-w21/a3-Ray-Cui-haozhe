@@ -1,0 +1,48 @@
+---
+title: "a3"
+author: "Haozhe Cui"
+data : "2/22/2021"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+data <- read.csv("incarceration_trends.csv")
+
+```
+
+## Introduction 
+From my analysis of incarceration trends, I mainly focus on analyzing relationships between the population and the proportion of whites and black in jail and prison. Because, by some of the comparisons, the population of black and white in prison each year can directly let us view the overall trend of these difference, and I can use these data to get the proportion of white and black in prison each year to compare these two variables more comprehensively. By calculating these mean and  the ratio of white and black jail pop, I explore whether the U.S. incarceration system contains racial injustice. Based on my summary information, the black population's overall trend in prison and jail is higher than the white. The mean of white prison, jail and adm population are 91, 202 and 134, and the black are 133, 290 and 133, demonstrating a obvious difference.
+
+
+
+## Chart 1
+```{r}
+df <- data %>%
+  group_by(state, black_prison_pop, white_prison_pop)
+
+mean_white_prison_pop <- mean(df$white_male_prison_pop, na.rm = T) * 10
+mean_black_prison_pop <- mean(df$black_male_prison_pop, na.rm = T) * 10
+
+chart1 <- ggplot(data = df) + 
+  geom_line(mapping = aes(y = black_prison_pop, x = year, color = "black_prison_pop")) +
+  geom_hline(yintercept = mean_white_prison_pop, color = "blue") +
+  geom_hline(yintercept = mean_black_prison_pop, color = "black") +
+   labs(title = "The comparsion between the mean of male prison pop with black and white")
+chart1
+```
+
+
+
+
+## Chart 2
+
+```{r}
+chart2 <- ggplot(data = data) +
+  geom_point(mapping = aes(x = black_prison_pop, y = white_prison_pop)) +
+  facet_wrap(~region) +
+  labs(title = "The comparsion between the pop of whtie prison and black prison in regions")
+chart2
+
+```
