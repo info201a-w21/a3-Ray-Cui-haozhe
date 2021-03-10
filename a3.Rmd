@@ -13,36 +13,30 @@ data <- read.csv("incarceration_trends.csv")
 ```
 
 ## Introduction 
-From my analysis of incarceration trends, I mainly focus on analyzing relationships between the population and the proportion of whites and black in jail and prison. Because, by some of the comparisons, the population of black and white in prison each year can directly let us view the overall trend of these difference, and I can use these data to get the proportion of white and black in prison each year to compare these two variables more comprehensively. By calculating these mean and  the ratio of white and black jail pop, I explore whether the U.S. incarceration system contains racial injustice. Based on my summary information, the black population's overall trend in prison and jail is higher than the white. The mean of white prison, jail and adm population are 91, 202 and 134, and the black are 133, 290 and 133, demonstrating a obvious difference.
+One of the sharpest manifestations of racism in the United States is its prison system. By exploring incarceration_trends data, we can use R to analyze whether inequality occurs between black and white. In this practice, I will focus on the jail and prison populations to explore this phenomenon.
 
+In my summary statistic page, I first calculate the total population between 2008 to 2018 to use the most recent data information to analyze. Then, by calculating the mean of some of the population in each state, I get the five most populated states between 2008 to 2018, and they are VT, WI, WY, WA, and WV. I want to use these top 5 states to analyze because they can highlight the most obvious question I want. Finally, by calculating the ratio between the white and black population in the jail and prison in these five states between 2008 to 2018, I find the black percentage in the jail and prison is much higher than the white. (jail_ratio between black and white: 359.2596 and inf, prison_ration between black and white:192.2482 and inf)
 
 
 ## Chart 1
-```{r}
-df <- data %>%
-  group_by(state, black_prison_pop, white_prison_pop)
-
-mean_white_prison_pop <- mean(df$white_male_prison_pop, na.rm = T) * 10
-mean_black_prison_pop <- mean(df$black_male_prison_pop, na.rm = T) * 10
-
-chart1 <- ggplot(data = df) + 
-  geom_line(mapping = aes(y = black_prison_pop, x = year, color = "black_prison_pop")) +
-  geom_hline(yintercept = mean_white_prison_pop, color = "blue") +
-  geom_hline(yintercept = mean_black_prison_pop, color = "black") +
-   labs(title = "The comparsion between the mean of male prison pop with black and white")
+```{r, echo=FALSE, message=FALSE}
+source("chart1.R")
 chart1
+
 ```
+This chart was intended to show the trend of black population in prison between 1970 to 2020 to explore whether the trend of the increase of the black prison population presents in progressive way. Also, I put two lines to show the  the 10 times of mean between prison population of the black and white to present a contrast of prison population of white and mean. Based on these two parts of plots, we find that the black prison population rapidly increase after 1984 and maintain a relevant high prison population. On the other hand, the mean of the black population(black lines) is larger than the mean of white (blue line).
+## chart 2
 
-
-
-
-## Chart 2
-
-```{r}
-chart2 <- ggplot(data = data) +
-  geom_point(mapping = aes(x = black_prison_pop, y = white_prison_pop)) +
-  facet_wrap(~region) +
-  labs(title = "The comparsion between the pop of whtie prison and black prison in regions")
+```{r, echo=FALSE, message=FALSE}
+source("chart2.R")
 chart2
 
+```
+This chart is intended to demonstrate the contrast of the prison population of white and black in four primary regions to take a closer look at the numerical differences between them. From the graph, we can see that the overall population of black is much higher than the white in these four regions between 1970 to 2020. 
+
+## Chart 3
+This chart is intended to show the distribution of total jail population in Washington state. By demonstrating the distribution, we could efficiently focus on places where have the most total jail population to effectively analyze the existence of ineuqaility between black and white.
+```{r, echo=FALSE, message=FALSE}
+source("chart3.R")
+chart3
 ```
